@@ -16,150 +16,177 @@ namespace AdventOfCode.Tests
         }
 
         [TestMethod]
-        public void Should_start_on_zeroth_floor()
+        public void Traverse_should_start_on_zeroth_floor()
         {
-            var actual = _target.Solve(string.Empty);
+            var actual = _target.Traverse(string.Empty);
 
             Assert.AreEqual(0, actual);
         }
 
         [TestMethod]
-        public void Should_go_up_one_floor_for_open_parentheses()
+        public void Traverse_should_go_up_one_floor_for_open_parentheses()
         {
-            var input = "(";
+            var directions = "(";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(1, actual);
         }
 
         [TestMethod]
-        public void Should_go_down_one_floor_for_close_parentheses()
+        public void Traverse_should_go_down_one_floor_for_close_parentheses()
         {
-            var input = ")";
+            var directions = ")";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(-1, actual);
         }
 
         [TestMethod]
-        public void Should_work_for_very_tall_buildings()
+        public void Traverse_should_work_for_very_tall_buildings()
         {
-            var input = Enumerable.Range(0, 1000).Aggregate(new StringBuilder(), (a, x) => a.Append("(")).ToString();
+            var directions = Enumerable.Range(0, 1000).Aggregate(new StringBuilder(), (a, x) => a.Append("(")).ToString();
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(1000, actual);
         }
 
         [TestMethod]
-        public void Should_work_for_very_deep_basements()
+        public void Traverse_should_work_for_very_deep_basements()
         {
-            var input = Enumerable.Range(0, 1000).Aggregate(new StringBuilder(), (a, x) => a.Append(")")).ToString();
+            var directions = Enumerable.Range(0, 1000).Aggregate(new StringBuilder(), (a, x) => a.Append(")")).ToString();
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(-1000, actual);
         }
 
         [TestMethod]
-        public void Should_ignore_any_other_characters()
+        public void Traverse_should_ignore_any_other_characters()
         {
-            var input = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+            var directions = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
 
-            var actual = _target.Solve(input);
-
-            Assert.AreEqual(0, actual);
-        }
-
-        // following tests are based on examples from adventofcode.com/day/1
-
-        [TestMethod]
-        public void Should_return_zero_for_nested_set()
-        {
-            var input = "(())";
-
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(0, actual);
         }
 
         [TestMethod]
-        public void Should_return_zero_for_two_sets()
+        public void Traverse_should_return_zero_for_nested_set()
         {
-            var input = "()()";
+            var directions = "(())";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(0, actual);
         }
 
         [TestMethod]
-        public void Should_return_three_for_three_open()
+        public void Traverse_should_return_zero_for_two_sets()
         {
-            var input = "(((";
+            var directions = "()()";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
+
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void Traverse_should_return_three_for_three_open()
+        {
+            var directions = "(((";
+
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
         [TestMethod]
-        public void Should_return_three_for_three_open_with_cancelled_sets()
+        public void Traverse_should_return_three_for_three_open_with_cancelled_sets()
         {
-            var input = "(()(()(";
+            var directions = "(()(()(";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
-        public void Should_return_three_with_inverted_sets()
+        public void Traverse_should_return_three_with_inverted_sets()
         {
-            var input = "))(((((";
+            var directions = "))(((((";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
-        public void Should_return_negative_one_with_cancelled_set()
+        public void Traverse_should_return_negative_one_with_cancelled_set()
         {
-            var input = "())";
+            var directions = "())";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(-1, actual);
         }
 
-        public void Should_return_negative_one_with_inverted_sets()
+        public void Traverse_should_return_negative_one_with_inverted_sets()
         {
-            var input = "))(";
+            var directions = "))(";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
-        public void Should_return_negative_three_for_three_close()
+        public void Traverse_should_return_negative_three_for_three_close()
         {
-            var input = ")))";
+            var directions = ")))";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
 
-        public void Should_return_negative_three_for_three_close_with_cancelled_sets()
+        public void Traverse_should_return_negative_three_for_three_close_with_cancelled_sets()
         {
-            var input = ")())())";
+            var directions = ")())())";
 
-            var actual = _target.Solve(input);
+            var actual = _target.Traverse(directions);
 
             Assert.AreEqual(3, actual);
         }
 
+        [TestMethod]
+        public void TraverseToBasement_should_return_one_if_first_step_is_down()
+        {
+            var directions = ")";
+
+            var actual = _target.TraverseToBasement(directions);
+
+            Assert.AreEqual(1, actual);
+        }
+
+        [TestMethod]
+        public void TraverseToBasement_should_return_index_of_first_uncancelled_close()
+        {
+            var directions = "()())";
+
+            var actual = _target.TraverseToBasement(directions);
+
+            Assert.AreEqual(5, actual);
+        }
+
+        [TestMethod]
+        public void TraverseToBasement_should_ignore_any_directions_after_first_basement_entry()
+        {
+            var directions = "()())(())";
+
+            var actual = _target.TraverseToBasement(directions);
+
+            Assert.AreEqual(5, actual);
+        }
     }
 }
